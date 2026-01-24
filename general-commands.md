@@ -2,6 +2,7 @@
 
 ### Update Server
 ```
+fastfetch                           # informacion del sistema
 sudo apt update                     # Lista actualizaciones
 sudo apt upgrade                    # Actualiza
 apt install <packname pname2 ...>   # Installa o Actualiza
