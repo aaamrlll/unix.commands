@@ -20,6 +20,7 @@ sudo find / -type f -size +100M -exec ls -lh {} \; | sort -k 5 -hr | head -n 20 
 ```
 
 ---
+
 ### Disk Copy / Backup (USB → SSD)
 ```
 rsync -aHAX --progress "/media/belial/WEDDING L&A/" /media/belial/BACKUP/                             # Copia archivos sin borrar contenido existente
