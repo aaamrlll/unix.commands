@@ -12,6 +12,7 @@ ls /var/run/reboot-required         # Si el folder existe el reinicio es requeri
 
 ### Disk Usage
 ```
+find ~ -type f -size +1G -exec ls -lh {} \;                                         # Encuentra archivos de 1GB
 df -h                                                                               # Lista el uso del disco
 df -h /media/belial/BACKUP "/media/belial/WEDDING L&A"                              # Lista el uso de los discos especificados
 sudo du -h / --max-depth=1 | sort -hr | head -n 20                                  # Lista los directorios root dependiente por GBs
