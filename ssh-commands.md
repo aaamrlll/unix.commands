@@ -2,6 +2,8 @@
 
 ### SSH Server
 
+# To open a root shell
+sudo -i
 # SSH server config file
 sudo nano /etc/ssh/sshd_config
 # Valida la configuracion
