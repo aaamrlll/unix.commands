@@ -7,7 +7,7 @@ sudo nano /etc/ssh/sshd_config
 # Valida la configuracion
 sudo sshd -t
 # Reload cuando cambia la configuracion
-sudo systemctl daemon-reload.
+sudo systemctl daemon-reload
 # En caso de que el server use socket unit en la configuracion
 sudo systemctl restart ssh.socket
 # En caso de que se ocupe hacer un restart para aplicar configuracion
