@@ -1,7 +1,7 @@
 # Linux/Mac Commands
 
 ### Open / Run Files
-```
+
 # Muestra contenido corto
 cat file
 # Visualiza archivo largo
@@ -18,12 +18,12 @@ xdg-open file
 bash script.sh
 # Ejecuta script con sh
 sh script.sh
-```
 
----
+
+
 
 ### File Moves
-```
+
 # Muestra el directorio actual
 pwd
 # Lista archivos con permisos y tamaños
@@ -52,12 +52,12 @@ rm -rf folder
 stat file
 # Detecta tipo de archivo
 file file
-```
 
----
+
+
 
 ### File Permissions
-```
+
 # Permisos rw-r--r--
 chmod u=rw,g=r,o=r file
 # Hace un archivo ejecutable
@@ -68,6 +68,5 @@ chmod -R u=rwx,g=rx,o=rx folder
 chown user:group file
 # Cambia dueño recursivamente
 chown -R user:group folder
-```
 
----
+

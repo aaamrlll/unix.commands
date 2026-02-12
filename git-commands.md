@@ -1,7 +1,7 @@
 # Linux/Mac Commands
 
 ### Git – Web Development & Collaboration
-```
+
 # Inicializa un repositorio
 git init
 # Clona un repositorio remoto
@@ -12,12 +12,12 @@ git status
 git config user.name "Your Name"
 # Configura email (local)
 git config user.email "you@email.com"
-```
 
----
+
+
 
 ### Staging & Commits
-```
+
 # Agrega todos los cambios
 git add .
 # Agrega archivo específico
@@ -32,12 +32,12 @@ git reset <file>
 git restore <file>
 # Quita archivo del staging
 git restore --staged <file>
-```
 
----
+
+
 
 ### Branching
-```
+
 # Lista ramas
 git branch
 # Crea rama
@@ -52,12 +52,12 @@ git switch <branch-name>
 git switch -c <branch-name>
 # Borra rama local
 git branch -d <branch-name>
-```
 
----
+
+
 
 ### Merging & Rebase
-```
+
 # Merge de rama
 git merge <branch-name>
 # Rebase sobre otra rama
@@ -66,12 +66,12 @@ git rebase <branch-name>
 git rebase -i HEAD~n
 # Aplica commit específico
 git cherry-pick <commit>
-```
 
----
+
+
 
 ### Remote / Collaboration
-```
+
 # Lista remotos
 git remote -v
 # Agrega remoto
@@ -88,12 +88,12 @@ git push
 git push -u origin <branch>
 # Borra rama remota
 git push origin --delete <branch>
-```
 
----
+
+
 
 ### History & Diff
-```
+
 # Historial completo
 git log
 # Historial visual
@@ -106,12 +106,12 @@ git diff
 git diff --staged
 # Quién cambió cada línea
 git blame <file>
-```
 
----
+
+
 
 ### Stash (muy común en web dev)
-```
+
 # Guarda cambios temporales
 git stash
 # Lista stashes
@@ -120,12 +120,12 @@ git stash list
 git stash pop
 # Aplica stash sin borrarlo
 git stash apply
-```
 
----
+
+
 
 ### Tags & Releases
-```
+
 # Lista tags
 git tag
 # Crea tag
@@ -134,18 +134,17 @@ git tag v1.0.0
 git push origin v1.0.0
 # Publica todos los tags
 git push origin --tags
-```
 
----
+
+
 
 ### Cleanup / Recovery
-```
+
 # Borra archivos no trackeados
 git clean -fd
 # Descarta TODO cambio local
 git reset --hard HEAD
 # Historial de referencias (rescates)
 git reflog
-```
 
----
+

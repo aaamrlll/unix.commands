@@ -1,7 +1,7 @@
 # Linux/Mac Commands
 
 ### SSH Server
-```
+
 # SSH server config file
 sudo nano /etc/ssh/sshd_config
 # Valida la configuracion
@@ -12,12 +12,12 @@ sudo systemctl daemon-reload.
 sudo systemctl restart ssh.socket
 # En caso de que se ocupe hacer un restart para aplicar configuracion
 sudo systemctl restart ssh
-```
 
----
+
+
 
 ### SSH Client
-```
+
 # Ruta a folder ssh
 cd ~/.ssh
 # Solo owner tiene acceso
@@ -30,12 +30,12 @@ chmod 644 id_ed25519.pub
 chmod 600 id_ed25519_ent
 # Non sensitive
 chmod 644 id_ed25519_ent.pub
-```
 
----
+
+
 
 ### SSH File transfers
-```
+
 # Pasar el contenido de la carpeta al server
 rsync -avz proyectoAngular123/ user@serverIp:/var/www/app/
 # Descarga el contenido de la carpeta al cliente
@@ -61,6 +61,5 @@ parametro carpetaEjemplo/
 # Copia la carpeta y su contenido
 parametro carpetaEjemplo
 
-```
 
----
+

@@ -1,7 +1,7 @@
 # Linux/Mac Commands
 
 ### Update Server
-```
+
 # informacion del sistema
 fastfetch
 # Lista actualizaciones
@@ -12,12 +12,12 @@ sudo apt upgrade
 apt install <packname pname2 ...>
 # Si el folder existe el reinicio es requerido
 ls /var/run/reboot-required
-```
 
----
+
+
 
 ### Disk Usage
-```
+
 # Encuentra archivos de 1GB
 find ~ -type f -size +1G -exec ls -lh {} \;
 # Lista el uso del disco
@@ -30,12 +30,12 @@ sudo du -h / --max-depth=1 | sort -hr | head -n 20
 sudo du -h /<folder>/<subfolder> --max-depth=1 | sort -hr | head -n 20
 # Encuentra archivos mayores de 100 MB
 sudo find / -type f -size +100M -exec ls -lh {} \; | sort -k 5 -hr | head -n 20
-```
 
----
+
+
 
 ### Disk Copy / Backup (USB → SSD)
-```
+
 # Copia archivos sin borrar contenido existente
 rsync -aHAX --progress "/media/belial/WEDDING L&A/" /media/belial/BACKUP/
 # Espejo exacto (borra extras en destino)
@@ -50,14 +50,14 @@ rsync -aHAX --dry-run --checksum --info=progress2 "/media/belial/WEDDING L&A/" /
 rsync -aHAX --partial --append-verify --progress "/media/belial/WEDDING L&A/" /media/belial/BACKUP/
 # Hash para verificar un archivo específico
 sha256sum "/media/belial/WEDDING L&A/2. Videos/Documental Leslie y Aarón.mp4"
-```
 
----
+
+
 
 ### Usuario Ubuntu
-```
+
 # Agrega usuario
 sudo adduser <username>
 # Agrega a sudo
 sudo usermod -aG sudo <username>
-```
+

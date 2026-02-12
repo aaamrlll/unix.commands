@@ -1,7 +1,7 @@
 # Linux/Mac Commands
 
 ### Memory check
-```
+
 # Estado de memoria
 free -h
 # Reinicia servicios
@@ -12,12 +12,12 @@ top
 htop
 # Procesos que más memoria usan
 ps aux --sort=-%mem | head
-```
 
----
+
+
 
 ### Clean apt y snap
-```
+
 # Elimina dependencias no usadas
 sudo apt autoremove --purge
 # Limpia paquetes .deb antiguos
@@ -28,12 +28,12 @@ sudo apt clean
 snap list --all
 # Borra versiones viejas
 sudo snap remove <snap> --revision <id>
-```
 
----
+
+
 
 ### Cache and logs
-```
+
 # Revisa cache del sistema
 sudo du -sh /var/cache/*
 # Limpia temporales (runtime-safe)
@@ -42,12 +42,12 @@ sudo rm -rf /tmp/*
 sudo journalctl --disk-usage
 # Borra logs > 7 días
 sudo journalctl --vacuum-time=7d
-```
 
----
+
+
 
 ### Remove NVM
-```
+
 rm -rf ~/.nvm
 # For bash
 nano ~/.zshrc
@@ -61,12 +61,12 @@ unset NVM_CD_FLAGS
 unset NVM_BIN
 command -v nvm
 nvm --version
-```
 
----
+
+
 
 ### Remove Node (Global)
-```
+
 sudo rm -rf /usr/local/lib/node_modules
 sudo rm -rf /usr/local/include/node
 sudo rm -rf /usr/local/lib/node
@@ -85,4 +85,3 @@ sudo rm -rf /opt/npm
 brew uninstall node
 brew uninstall npm
 brew cleanup
-```
