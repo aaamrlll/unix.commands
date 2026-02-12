@@ -41,16 +41,3 @@ sha256sum "/media/belial/WEDDING L&A/2. Videos/Documental Leslie y Aarón.mp4"  
 sudo adduser <username>           # Agrega usuario
 sudo usermod -aG sudo <username>  # Agrega a sudo
 ```
-
----
-
-### SSH Ubuntu
-```
-cd ~/.ssh                       # Ruta a folder ssh
-chmod 700 ~/.ssh                # Solo owner tiene acceso
-chmod 600 id_ed25519            # Solo owner tiene acceso
-chmod 644 id_ed25519.pub        # Non sensitive
-chmod 600 id_ed25519_ent        # Solo owner tiene acceso
-chmod 644 id_ed25519_ent.pub    # Non sensitive
-
-```
