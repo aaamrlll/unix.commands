@@ -2,45 +2,72 @@
 
 ### Open / Run Files
 ```
-cat file            # Muestra contenido corto
-less file           # Visualiza archivo largo
-nano file           # Edita archivo con nano
-vi file             # Edita archivo con vi
-xdg-open file       # Abre archivo con app por defecto
-./script.sh         # Ejecuta script local
-bash script.sh      # Ejecuta script con bash
-sh script.sh        # Ejecuta script con sh
+# Muestra contenido corto
+cat file
+# Visualiza archivo largo
+less file
+# Edita archivo con nano
+nano file
+# Edita archivo con vi
+vi file
+# Abre archivo con app por defecto
+xdg-open file
+# Ejecuta script local
+./script.sh
+# Ejecuta script con bash
+bash script.sh
+# Ejecuta script con sh
+sh script.sh
 ```
 
 ---
 
 ### File Moves
 ```
-pwd                                   # Muestra el directorio actual
-ls -lah                               # Lista archivos con permisos y tamaños
-mkdir <folder>                        # Crea un directorio
-mkdir -p a/b/c                        # Crea directorios anidados
-touch <file>                          # Crea archivo vacío o actualiza timestamp
-cp file1 file2                        # Copia archivo
-cp -r dir1 dir2                       # Copia directorios recursivamente
-mv oldname newname                    # Renombra archivo o directorio
-mv file /path/dest/                   # Mueve archivo
-rm file                               # Borra archivo
-rm -r folder                          # Borra directorio y contenido
-rm -rf folder                         # Borra forzado (peligroso)
-stat file                             # Detalles completos del archivo
-file file                             # Detecta tipo de archivo
+# Muestra el directorio actual
+pwd
+# Lista archivos con permisos y tamaños
+ls -lah
+# Crea un directorio
+mkdir <folder>
+# Crea directorios anidados
+mkdir -p a/b/c
+# Crea archivo vacío o actualiza timestamp
+touch <file>
+# Copia archivo
+cp file1 file2
+# Copia directorios recursivamente
+cp -r dir1 dir2
+# Renombra archivo o directorio
+mv oldname newname
+# Mueve archivo
+mv file /path/dest/
+# Borra archivo
+rm file
+# Borra directorio y contenido
+rm -r folder
+# Borra forzado (peligroso)
+rm -rf folder
+# Detalles completos del archivo
+stat file
+# Detecta tipo de archivo
+file file
 ```
 
 ---
 
 ### File Permissions
 ```
-chmod u=rw,g=r,o=r file               # Permisos rw-r--r--
-chmod u+x script.sh                   # Hace un archivo ejecutable
-chmod -R u=rwx,g=rx,o=rx folder       # Permisos recursivos rwx-rx-rx
-chown user:group file                 # Cambia dueño y grupo
-chown -R user:group folder            # Cambia dueño recursivamente
+# Permisos rw-r--r--
+chmod u=rw,g=r,o=r file
+# Hace un archivo ejecutable
+chmod u+x script.sh
+# Permisos recursivos rwx-rx-rx
+chmod -R u=rwx,g=rx,o=rx folder
+# Cambia dueño y grupo
+chown user:group file
+# Cambia dueño recursivamente
+chown -R user:group folder
 ```
 
 ---

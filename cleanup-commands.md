@@ -2,32 +2,46 @@
 
 ### Memory check
 ```
-free -h                                 # Estado de memoria
-sudo systemctl restart NetworkManager   #Reinicia servicios
-top                                     # Procesos en tiempo real
-htop                                    # Mejor versión (si está instalada)
-ps aux --sort=-%mem | head              # Procesos que más memoria usan
+# Estado de memoria
+free -h
+# Reinicia servicios
+sudo systemctl restart NetworkManager
+# Procesos en tiempo real
+top
+# Mejor versión (si está instalada)
+htop
+# Procesos que más memoria usan
+ps aux --sort=-%mem | head
 ```
 
 ---
 
 ### Clean apt y snap
 ```
-sudo apt autoremove --purge                 # Elimina dependencias no usadas
-sudo apt autoclean                          # Limpia paquetes .deb antiguos
-sudo apt clean                              # Borra todo el cache de apt
-snap list --all                             # Lista versiones instaladas
-sudo snap remove <snap> --revision <id>     # Borra versiones viejas
+# Elimina dependencias no usadas
+sudo apt autoremove --purge
+# Limpia paquetes .deb antiguos
+sudo apt autoclean
+# Borra todo el cache de apt
+sudo apt clean
+# Lista versiones instaladas
+snap list --all
+# Borra versiones viejas
+sudo snap remove <snap> --revision <id>
 ```
 
 ---
 
 ### Cache and logs
 ```
-sudo du -sh /var/cache/*             # Revisa cache del sistema
-sudo rm -rf /tmp/*                   # Limpia temporales (runtime-safe)
-sudo journalctl --disk-usage         # Uso de logs del sistema
-sudo journalctl --vacuum-time=7d     # Borra logs > 7 días
+# Revisa cache del sistema
+sudo du -sh /var/cache/*
+# Limpia temporales (runtime-safe)
+sudo rm -rf /tmp/*
+# Uso de logs del sistema
+sudo journalctl --disk-usage
+# Borra logs > 7 días
+sudo journalctl --vacuum-time=7d
 ```
 
 ---
@@ -35,9 +49,11 @@ sudo journalctl --vacuum-time=7d     # Borra logs > 7 días
 ### Remove NVM
 ```
 rm -rf ~/.nvm
-nano ~/.zshrc                     # For bash
+# For bash
+nano ~/.zshrc
 nano ~/.bash_profile
-nano ~/.bashrc                    # Also check nano ~/.profile
+# Also check nano ~/.profile
+nano ~/.bashrc
 brew uninstall nvm
 sudo rm -rf /usr/local/nvm
 unset NVM_DIR

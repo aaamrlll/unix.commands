@@ -2,102 +2,150 @@
 
 ### Git – Web Development & Collaboration
 ```
-git init                                      # Inicializa un repositorio
-git clone <repo-url>                          # Clona un repositorio remoto
-git status                                    # Estado del working tree
-git config user.name "Your Name"              # Configura nombre (local)
-git config user.email "you@email.com"         # Configura email (local)
+# Inicializa un repositorio
+git init
+# Clona un repositorio remoto
+git clone <repo-url>
+# Estado del working tree
+git status
+# Configura nombre (local)
+git config user.name "Your Name"
+# Configura email (local)
+git config user.email "you@email.com"
 ```
 
 ---
 
 ### Staging & Commits
 ```
-git add .                                     # Agrega todos los cambios
-git add <file>                                # Agrega archivo específico
-git commit -m "message"                       # Commit
-git commit --amend                            # Modifica el último commit
-git reset <file>                              # Saca archivo del staging
-git restore <file>                            # Descarta cambios locales
-git restore --staged <file>                   # Quita archivo del staging
+# Agrega todos los cambios
+git add .
+# Agrega archivo específico
+git add <file>
+# Commit
+git commit -m "message"
+# Modifica el último commit
+git commit --amend
+# Saca archivo del staging
+git reset <file>
+# Descarta cambios locales
+git restore <file>
+# Quita archivo del staging
+git restore --staged <file>
 ```
 
 ---
 
 ### Branching
 ```
-git branch                                    # Lista ramas
-git branch <branch-name>                      # Crea rama
-git checkout <branch-name>                   # Cambia de rama
-git checkout -b <branch-name>                # Crea y cambia a nueva rama
-git switch <branch-name>                     # Cambia de rama (moderno)
-git switch -c <branch-name>                  # Crea y cambia de rama
-git branch -d <branch-name>                  # Borra rama local
+# Lista ramas
+git branch
+# Crea rama
+git branch <branch-name>
+# Cambia de rama
+git checkout <branch-name>
+# Crea y cambia a nueva rama
+git checkout -b <branch-name>
+# Cambia de rama (moderno)
+git switch <branch-name>
+# Crea y cambia de rama
+git switch -c <branch-name>
+# Borra rama local
+git branch -d <branch-name>
 ```
 
 ---
 
 ### Merging & Rebase
 ```
-git merge <branch-name>                      # Merge de rama
-git rebase <branch-name>                     # Rebase sobre otra rama
-git rebase -i HEAD~n                         # Rebase interactivo
-git cherry-pick <commit>                     # Aplica commit específico
+# Merge de rama
+git merge <branch-name>
+# Rebase sobre otra rama
+git rebase <branch-name>
+# Rebase interactivo
+git rebase -i HEAD~n
+# Aplica commit específico
+git cherry-pick <commit>
 ```
 
 ---
 
 ### Remote / Collaboration
 ```
-git remote -v                                # Lista remotos
-git remote add origin <url>                  # Agrega remoto
-git fetch                                    # Trae cambios sin aplicar
-git pull                                     # Fetch + merge
-git pull --rebase                            # Pull usando rebase
-git push                                     # Push a remoto
-git push -u origin <branch>                  # Set upstream
-git push origin --delete <branch>            # Borra rama remota
+# Lista remotos
+git remote -v
+# Agrega remoto
+git remote add origin <url>
+# Trae cambios sin aplicar
+git fetch
+# Fetch + merge
+git pull
+# Pull usando rebase
+git pull --rebase
+# Push a remoto
+git push
+# Set upstream
+git push -u origin <branch>
+# Borra rama remota
+git push origin --delete <branch>
 ```
 
 ---
 
 ### History & Diff
 ```
-git log                                      # Historial completo
-git log --oneline --graph --decorate         # Historial visual
-git show <commit>                            # Muestra commit
-git diff                                     # Cambios no stageados
-git diff --staged                            # Cambios en staging
-git blame <file>                             # Quién cambió cada línea
+# Historial completo
+git log
+# Historial visual
+git log --oneline --graph --decorate
+# Muestra commit
+git show <commit>
+# Cambios no stageados
+git diff
+# Cambios en staging
+git diff --staged
+# Quién cambió cada línea
+git blame <file>
 ```
 
 ---
 
 ### Stash (muy común en web dev)
 ```
-git stash                                    # Guarda cambios temporales
-git stash list                               # Lista stashes
-git stash pop                                # Restaura último stash
-git stash apply                              # Aplica stash sin borrarlo
+# Guarda cambios temporales
+git stash
+# Lista stashes
+git stash list
+# Restaura último stash
+git stash pop
+# Aplica stash sin borrarlo
+git stash apply
 ```
 
 ---
 
 ### Tags & Releases
 ```
-git tag                                      # Lista tags
-git tag v1.0.0                               # Crea tag
-git push origin v1.0.0                       # Publica tag
-git push origin --tags                       # Publica todos los tags
+# Lista tags
+git tag
+# Crea tag
+git tag v1.0.0
+# Publica tag
+git push origin v1.0.0
+# Publica todos los tags
+git push origin --tags
 ```
 
 ---
 
 ### Cleanup / Recovery
 ```
-git clean -fd                                # Borra archivos no trackeados
-git reset --hard HEAD                       # Descarta TODO cambio local
-git reflog                                   # Historial de referencias (rescates)
+# Borra archivos no trackeados
+git clean -fd
+# Descarta TODO cambio local
+git reset --hard HEAD
+# Historial de referencias (rescates)
+git reflog
 ```
 
 ---

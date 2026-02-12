@@ -3,20 +3,28 @@
 
 ### Docker Clean Unsafe
 ```
-docker system df                  # Uso de disco de docker para antes y después
-docker container prune            # Borra contenedores detenidos
-docker image prune                # Borra imágenes sin uso
-docker volume prune               # Borra volumen sin uso
-docker system prune               # Borra todo lo sin uso
-docker system prune --volumes     # Borra volúmenes (peligroso)
+# Uso de disco de docker para antes y después
+docker system df
+# Borra contenedores detenidos
+docker container prune
+# Borra imágenes sin uso
+docker image prune
+# Borra volumen sin uso
+docker volume prune
+# Borra todo lo sin uso
+docker system prune
+# Borra volúmenes (peligroso)
+docker system prune --volumes
 ```
 
 ---
 
 ### Docker
 ```
-docker compose up -d              # Para iniciar un contenedor
-docker compose down               # Para detener un contenedor
+# Para iniciar un contenedor
+docker compose up -d
+# Para detener un contenedor
+docker compose down
 ```
 
 ---
