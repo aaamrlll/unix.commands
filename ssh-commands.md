@@ -18,8 +18,12 @@ sudo systemctl restart ssh
 
 ### SSH Client
 
+# Key gen
+ssh-keygen -t ed25519 -C "aaron.alanis@suffragium.net"
 # Ruta a folder ssh
 cd ~/.ssh
+# Create or update ssh config
+nano ~/.ssh/cofig
 # Solo owner tiene acceso
 chmod 700 ~/.ssh
 # Solo owner tiene acceso
