@@ -28,11 +28,6 @@ mv file /path/dest/                   # Mueve archivo
 rm file                               # Borra archivo
 rm -r folder                          # Borra directorio y contenido
 rm -rf folder                         # Borra forzado (peligroso)
-chmod u=rw,g=r,o=r file               # Permisos rw-r--r--
-chmod u+x script.sh                   # Hace un archivo ejecutable
-chmod -R u=rwx,g=rx,o=rx folder       # Permisos recursivos rwx-rx-rx
-chown user:group file                 # Cambia dueño y grupo
-chown -R user:group folder            # Cambia dueño recursivamente
 stat file                             # Detalles completos del archivo
 file file                             # Detecta tipo de archivo
 ```
