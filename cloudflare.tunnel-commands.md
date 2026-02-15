@@ -102,6 +102,32 @@ curl -L -o cloudflared.deb \
 https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
 sudo dpkg -i cloudflared.deb
 sudo apt -f install -y
+# Configure client ssh hosts Mac
+nano ~/.ssh/config
+
+# Example
+Host home.suffragium
+    HostName ssh.suffragium.net
+    ProxyCommand cloudflared access ssh --hostname %h
+    User belial
+    IdentityFile ~/.ssh/id_ed25519
+
+Host suffragium
+    HostName <IpAddress>
+    User aaron
+    IdentityFile ~/.ssh/id_ed25519
+
+# Configure client ssh hosts Ubuntu
+nano ~/.ssh/config
+
+# Example
+Host home.suffragium
+    HostName ssh.suffragium.net
+    ProxyCommand cloudflared access ssh --hostname %h
+    User belial
+    IdentityFile ~/.ssh/id_ed25519
+
+
 # Generate ssh keys
 ssh-keygen -t ed25519 -C "aaron.alanis@suffragium.net"
 # Copy SSH keys to Server
