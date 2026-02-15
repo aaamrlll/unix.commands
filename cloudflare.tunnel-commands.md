@@ -1,73 +1,83 @@
-# Steps linux server via cloudflare tunnerl and Nginx
+# Ubuntu Home Server via Cloudflare Tunnel + Nginx + .NET API + SSH
 
-### Configure server
+## Overview
 
-# Install cloudflared
-cd /tmp
-curl -L -o cloudflared.deb \
+This setup provides:
+
+-   Static website: home.suffragium.net
+-   SSH access: ssh.suffragium.net
+-   Optional API: api.suffragium.net or path-based routing
+-   No router port forwarding
+-   No public IP exposure
+-   SSH key-only authentication
+-   Firewall default-deny inbound
+
+------------------------------------------------------------------------
+
+# 1) Install Cloudflared (Server)
+
+cd /tmp curl -L -o cloudflared.deb
 https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
-sudo dpkg -i cloudflared.deb
-sudo apt -f install -y
-# Login into cloudflare and chose a zone to grant permissions to (Create a special DNS record like
-_xxxx.suffragium.net)
-cloudflared tunnel login
-# After login and zone verify .pem file was created
-ls ~/.cloudflared
-# Create a tunnel and name
-cloudflared tunnel create home-server
-# Verify it created a credentials file for that tunnel
-cloudflared tunnel list
-# Create a host name (can create for ssh too)
-cloudflared tunnel route dns home-server home.suffragium.net
-cloudflared tunnel route dns home-server ssh.suffragium.net
-# Create the tunnel configuration file
-sudo mkdir -p /etc/cloudflared
-# Edit config file
-sudo nano /etc/cloudflared/config.yml
+sudo dpkg -i cloudflared.deb sudo apt -f install -y cloudflared
+--version
 
-# Example
-tunnel: 7311b664-0b90-413f-a74a-07c3f758dee6
-credentials-file: /home/belial/.cloudflared/7311b664-0b90-413f-a74a-07c3f758dee6.json
+------------------------------------------------------------------------
 
-ingress:
-  - hostname: home.suffragium.net
-    service: http://localhost:80
+# 2) Authenticate Server with Cloudflare
 
-  - hostname: ssh.suffragium.net
-    service: ssh://localhost:22
+cloudflared tunnel login ls \~/.cloudflared
 
-  - service: http_status:404
+Confirm: - cert.pem exists
 
-# Start the tunnel server to test
-sudo cloudflared tunnel run home-server
-# Verify port 80 is listening
-sudo ss -ltnp | grep ':80' || true
+------------------------------------------------------------------------
 
-### NGINX
+# 3) Create Tunnel
 
-# Install nginx 
-sudo apt install -y nginx
-# Enable Nginx
-sudo systemctl enable --now nginx
-# Confirm it
-sudo ss -ltnp | grep ':80'
-# Test tunnel is working
-curl -I https://home.suffragium.net
-# Make a home page dir and copy the page files there
-sudo mkdir -p /var/www/home
-# Set permissions
-sudo chown -R www-data:www-data /var/www/home
-sudo find /var/www/home -type d -exec chmod 755 {} \;
-sudo find /var/www/home -type f -exec chmod 644 {} \;
-# Configure Nginx
+cloudflared tunnel create home-server cloudflared tunnel list ls
+\~/.cloudflared/\*.json
+
+Confirm: - Tunnel ID is listed - Credentials JSON file exists
+
+------------------------------------------------------------------------
+
+# 4) Create DNS Routes
+
+cloudflared tunnel route dns home-server home.suffragium.net cloudflared
+tunnel route dns home-server ssh.suffragium.net cloudflared tunnel route
+dns home-server api.suffragium.net
+
+Verify DNS: dig home.suffragium.net +short dig ssh.suffragium.net +short
+
+Should return \*.cfargotunnel.com
+
+------------------------------------------------------------------------
+
+# 5) Install and Configure Nginx
+
+sudo apt update sudo apt install -y nginx sudo systemctl enable --now
+nginx sudo ss -ltnp \| grep ':80'
+
+Confirm: - Port 80 is listening
+
+------------------------------------------------------------------------
+
+# 6) Deploy Website
+
+sudo mkdir -p /var/www/home sudo rsync -av --delete /path/to/your/site/
+/var/www/home/ sudo chown -R www-data:www-data /var/www/home sudo find
+/var/www/home -type d -exec chmod 755 {} ; sudo find /var/www/home -type
+f -exec chmod 644 {} ;
+
+Test locally: curl -I http://127.0.0.1/
+
+------------------------------------------------------------------------
+
+# 7) Nginx Site Config
+
 sudo nano /etc/nginx/sites-available/home.suffragium.net
 
-# Example
-server {
-    listen 80;
-    server_name home.suffragium.net;
+server { listen 80; server_name home.suffragium.net;
 
-    # Static site
     root /var/www/home;
     index index.html;
 
@@ -75,139 +85,88 @@ server {
         try_files $uri $uri/ /index.html;
     }
 
-    # API
-    location /siempre-nota/api/ {
-        proxy_pass http://127.0.0.1:5000/;
-        proxy_http_version 1.1;
-
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-
-        proxy_read_timeout 60s;
-        proxy_send_timeout 60s;
-    }
 }
 
-# Optional instead configurea new tunnel host
-# Edit config file
-sudo nano /etc/cloudflared/config.yml
-# Add an other host name and port
-  - hostname: api.suffragium.net
-    service: http://localhost:8080
-# Create the hostname and restart
-cloudflared tunnel route dns home-server api.suffragium.net
-sudo systemctl restart cloudflared
-# Create an ew Nginx site
-sudo nano /etc/nginx/sites-available/api.suffragium.net
+sudo ln -sf /etc/nginx/sites-available/home.suffragium.net
+/etc/nginx/sites-enabled/ sudo rm -f /etc/nginx/sites-enabled/default
+sudo nginx -t sudo systemctl reload nginx
 
-# Example
-server {
-    listen 8080;
-    server_name api.suffragium.net;
+------------------------------------------------------------------------
 
-    location / {
-        proxy_pass http://127.0.0.1:5000;
-        proxy_http_version 1.1;
+# 8) Cloudflare Tunnel Config
 
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        
-        proxy_read_timeout 60s;
-        proxy_send_timeout 60s;
-    }
-}
+sudo mkdir -p /etc/cloudflared sudo nano /etc/cloudflared/config.yml
 
-# Remove default nginx site and enable new sites
-sudo ln -sf /etc/nginx/sites-available/home.suffragium.net /etc/nginx/sites-enabled/home.suffragium.net
-sudo rm -f /etc/nginx/sites-enabled/default
-# Optional in case of multiple sites
-sudo ln -sf /etc/nginx/sites-available/api.suffragium.net /etc/nginx/sites-enabled/
+tunnel: `<TUNNEL_ID>`{=html} credentials-file:
+/home/belial/.cloudflared/`<TUNNEL_ID>`{=html}.json
 
+ingress: - hostname: home.suffragium.net service: http://127.0.0.1:80
 
-# Verify config
-sudo nginx -t
-# Reload Nginx service
-sudo systemctl reload nginx
+-   hostname: ssh.suffragium.net service: ssh://127.0.0.1:22
 
-# If needed start .net api dll
-ASPNETCORE_URLS=http://127.0.0.1:5000 dotnet YourApi.dll
+-   hostname: api.suffragium.net service: http://127.0.0.1:8080
 
-### Make tunnel persistent
+-   service: http_status:404
 
-# Install cloudflared service
-sudo cloudflared service install
-# Enable the service
-sudo systemctl enable --now cloudflared
-# Confirm
+Test: sudo cloudflared tunnel run home-server
+
+Confirm externally: https://home.suffragium.net
+
+------------------------------------------------------------------------
+
+# 9) Make Tunnel Persistent
+
+sudo cloudflared service install sudo systemctl enable --now cloudflared
 sudo systemctl status cloudflared --no-pager
 
-### Configure client for ssh
+------------------------------------------------------------------------
 
-# Install cloudflared Mac
-brew install cloudflared
-# Install Linux
-cd /tmp
-curl -L -o cloudflared.deb \
-https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
-sudo dpkg -i cloudflared.deb
-sudo apt -f install -y
-# Configure client ssh hosts Mac
-nano ~/.ssh/config
+# 10) .NET API Setup
 
-# Example
-Host home.suffragium
-    HostName ssh.suffragium.net
-    ProxyCommand cloudflared access ssh --hostname %h
-    User belial
-    IdentityFile ~/.ssh/id_ed25519
+Publish: sudo mkdir -p /opt/myapi sudo dotnet publish -c Release -o
+/opt/myapi
 
-Host suffragium
-    HostName <IpAddress>
-    User aaron
-    IdentityFile ~/.ssh/id_ed25519
+Create service user: sudo useradd --system --no-create-home --shell
+/usr/sbin/nologin myapi \|\| true sudo chown -R myapi:myapi /opt/myapi
 
-# Configure client ssh hosts Ubuntu add IdentitiesOnly and IdentityAgent if ubuntu blocks it
-nano ~/.ssh/config
+Create service: sudo nano /etc/systemd/system/myapi.service
 
-# Example
-Host suffragium
-    HostName <IpAddress>
-    User aaron
-    IdentityFile ~/.ssh/id_ed25519
-    IdentitiesOnly yes
-    IdentityAgent none
+\[Unit\] Description=My ASP.NET Core API After=network-online.target
 
+\[Service\] Type=simple User=myapi WorkingDirectory=/opt/myapi
+Environment=ASPNETCORE_URLS=http://127.0.0.1:5000
+ExecStart=/usr/bin/dotnet /opt/myapi/YourApi.dll Restart=always
 
-# Generate ssh keys
-ssh-keygen -t ed25519 -C "aaron.alanis@suffragium.net"
-# On server create an ssh folder if needed
-mkdir -p ~/.ssh
-# Copy SSH keys to Server
-nano ~/.ssh/authorized_keys
-# Set permissions
-chmod 700 ~/.ssh
-chmod 600 ~/.ssh/authorized_keys
-# Lockdown ssh server
+\[Install\] WantedBy=multi-user.target
+
+Enable: sudo systemctl daemon-reload sudo systemctl enable --now myapi
+sudo systemctl status myapi --no-pager
+
+------------------------------------------------------------------------
+
+# 11) SSH Hardening
+
 sudo nano /etc/ssh/sshd_config
 
-# Example
-PasswordAuthentication no
-PubkeyAuthentication yes
-PermitRootLogin no
-ChallengeResponseAuthentication no
-UsePAM yes
-X11Forwarding no
+PasswordAuthentication no PubkeyAuthentication yes PermitRootLogin no
+ChallengeResponseAuthentication no UsePAM yes
 
-# Restart SSH server
-sudo systemctl daemon-reload
-sudo systemctl restart ssh.socket
-sudo systemctl restart ssh
-# Configure servers firewall
-sudo ufw default deny incoming
-sudo ufw default allow outgoing
-sudo ufw enable
+sudo systemctl restart ssh sudo systemctl status ssh --no-pager
 
+------------------------------------------------------------------------
+
+# 12) Firewall (UFW)
+
+sudo ufw --force reset sudo ufw default deny incoming sudo ufw default
+allow outgoing sudo ufw enable sudo ufw status verbose
+
+------------------------------------------------------------------------
+
+# Final State Verification Checklist
+
+-   cloudflared tunnel list shows tunnel
+-   systemctl status cloudflared shows active (running)
+-   curl http://127.0.0.1 works locally
+-   https://home.suffragium.net works externally
+-   ssh suffragiumhome connects via tunnel
+-   sudo ufw status shows default deny incoming
