@@ -14,8 +14,12 @@ sudo systemctl daemon-reload
 sudo systemctl restart ssh.socket
 # En caso de que se ocupe hacer un restart para aplicar configuracion
 sudo systemctl restart ssh
-
-
+# Add ssh keys
+nano ~/.ssh/authorized_keys
+# Permisos para ssh fodler
+chmod 700 ~/.ssh
+# Permisos para keys file
+chmod 600 ~/.ssh/authorized_keys
 
 
 ### SSH Client
