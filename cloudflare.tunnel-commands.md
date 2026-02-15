@@ -67,21 +67,74 @@ server {
     listen 80;
     server_name home.suffragium.net;
 
+    # Static site
     root /var/www/home;
     index index.html;
 
     location / {
-        try_files $uri $uri/ =404;
+        try_files $uri $uri/ /index.html;
+    }
+
+    # API
+    location /siempre-nota/api/ {
+        proxy_pass http://127.0.0.1:5000/;
+        proxy_http_version 1.1;
+
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        proxy_read_timeout 60s;
+        proxy_send_timeout 60s;
     }
 }
 
-# Remove default nginx site
+# Optional instead configurea new tunnel host
+# Edit config file
+sudo nano /etc/cloudflared/config.yml
+# Add an other host name and port
+  - hostname: api.suffragium.net
+    service: http://localhost:8080
+# Create the hostname and restart
+cloudflared tunnel route dns home-server api.suffragium.net
+sudo systemctl restart cloudflared
+# Create an ew Nginx site
+sudo nano /etc/nginx/sites-available/api.suffragium.net
+
+# Example
+server {
+    listen 8080;
+    server_name api.suffragium.net;
+
+    location / {
+        proxy_pass http://127.0.0.1:5000;
+        proxy_http_version 1.1;
+
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        
+        proxy_read_timeout 60s;
+        proxy_send_timeout 60s;
+    }
+}
+
+# Remove default nginx site and enable new sites
 sudo ln -sf /etc/nginx/sites-available/home.suffragium.net /etc/nginx/sites-enabled/home.suffragium.net
 sudo rm -f /etc/nginx/sites-enabled/default
+# Optional in case of multiple sites
+sudo ln -sf /etc/nginx/sites-available/api.suffragium.net /etc/nginx/sites-enabled/
+
+
 # Verify config
 sudo nginx -t
 # Reload Nginx service
 sudo systemctl reload nginx
+
+# If needed start .net api dll
+ASPNETCORE_URLS=http://127.0.0.1:5000 dotnet YourApi.dll
 
 ### Make tunnel persistent
 
@@ -117,21 +170,27 @@ Host suffragium
     User aaron
     IdentityFile ~/.ssh/id_ed25519
 
-# Configure client ssh hosts Ubuntu
+# Configure client ssh hosts Ubuntu add IdentitiesOnly and IdentityAgent if ubuntu blocks it
 nano ~/.ssh/config
 
 # Example
-Host home.suffragium
-    HostName ssh.suffragium.net
-    ProxyCommand cloudflared access ssh --hostname %h
-    User belial
+Host suffragium
+    HostName <IpAddress>
+    User aaron
     IdentityFile ~/.ssh/id_ed25519
+    IdentitiesOnly yes
+    IdentityAgent none
 
 
 # Generate ssh keys
 ssh-keygen -t ed25519 -C "aaron.alanis@suffragium.net"
+# On server create an ssh folder if needed
+mkdir -p ~/.ssh
 # Copy SSH keys to Server
 nano ~/.ssh/authorized_keys
+# Set permissions
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/authorized_keys
 # Lockdown ssh server
 sudo nano /etc/ssh/sshd_config
 
@@ -147,4 +206,8 @@ X11Forwarding no
 sudo systemctl daemon-reload
 sudo systemctl restart ssh.socket
 sudo systemctl restart ssh
+# Configure servers firewall
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+sudo ufw enable
 
