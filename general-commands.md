@@ -13,7 +13,8 @@ apt install <packname pname2 ...>
 # Si el folder existe el reinicio es requerido
 ls /var/run/reboot-required
 
-
+# WIFI on macs
+sudo apt install broadcom-sta-common broadcom-sta-dkms
 
 
 ### Disk Usage
