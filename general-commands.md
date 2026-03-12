@@ -50,6 +50,8 @@ rsync -aHAX --dry-run --checksum --info=progress2 "/media/belial/WEDDING L&A/" /
 rsync -aHAX --partial --append-verify --progress "/media/belial/WEDDING L&A/" /media/belial/BACKUP/
 # Hash para verificar un archivo específico
 sha256sum "/media/belial/WEDDING L&A/2. Videos/Documental Leslie y Aarón.mp4"
+# Pasar un Archivo MacOs a media
+rsync -a Downloads/ubuntu-24.04.4-live-server-amd64.iso "/Volumes/63GB USB"
 
 
 
