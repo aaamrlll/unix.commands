@@ -41,9 +41,6 @@ chmod 600 id_ed25519_ent
 # Non sensitive
 chmod 644 id_ed25519_ent.pub
 
-
-
-
 ### SSH File transfers
 
 # Pasar el contenido de la carpeta al server
@@ -70,6 +67,17 @@ parametro --progress
 parametro carpetaEjemplo/
 # Copia la carpeta y su contenido
 parametro carpetaEjemplo
+
+### SSH tunnel
+
+# create a tunnel and forward it to an other -f para background -N para no shell
+ssh -f -N home.suffragium -L 15432:127.0.0.1:5432
+# create a healing tunnel and forward it to an other -f para background -N para no shell
+autossh -M 0 -f -N home.suffragium -L 15432:127.0.0.1:5432
+# ver tunnels abiertos en back ground
+pgrep -a autossh O pgrep -a ssh
+# kill tunnels
+kill <number>
 
 
 

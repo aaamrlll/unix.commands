@@ -70,3 +70,17 @@ chown user:group file
 chown -R user:group folder
 
 
+
+### Mount usb or drives
+
+# crear una carpeta para montar -p para crear si no existe
+sudo mkdir -p /mnt/usb1
+# monta el drive -t para especifical el file system
+sudo mount -t exfat /dev/sdc4 /mnt/usb1
+# lista archivos del drive
+ls -la /mnt/usb
+# copiar archivos
+cp /mnt/usb/file.ext ~/
+# desmonstar la carpeta se puede reutilizar
+sudo umount /mnt/usb1
+
